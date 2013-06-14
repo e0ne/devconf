@@ -15,7 +15,8 @@ logger.addHandler(streamHandler)
 
 def log_call(func):
     def wrapper(*args, **kwargs):
-        log_entry = 'Function "{0}" called with params args={1}, kwargs={2}'\
+        log_entry = 'Function "{0}" called with params args={1},' \
+                    ' kwargs={2}'\
             .format(func.func_name, args, kwargs)
         logger.debug(log_entry)
         func(*args, **kwargs)
@@ -37,7 +38,8 @@ class MetaLogger(type):
                 classdict['_logged_%s' % attr] = item
                 classdict[attr] = log_method_call(attr)
 
-        return super(MetaLogger, cls).__new__(cls, classname, bases, classdict)
+        return super(MetaLogger, cls).__new__(cls, classname, bases,
+                                              classdict)
 
 
 class VeryImportantClass(object):
